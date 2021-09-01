@@ -1,0 +1,13 @@
+----------------------------------------------------------------------------------------------------
+- SI DESEAMOS PONER ICONO A NUESTRA APP:
+  - VER: https://www.youtube.com/watch?v=u5SYlkfh8GA
+----------------------------------------------------------------------------------------------------
+- SI DESEAMOS CAMBIAR DE NOMBRE DE LA APP:
+  PARA ANDROID:
+    - C:\Users\Luigi\Desktop\appki\android\app\src\main\AndroidManifest.xml
+      -  <application android:label="Lavanderia Aki"
+  PARA IOS:
+    - C:\Users\Luigi\Desktop\appki\ios\Runner\Info.plist
+      - <key>CFBundleName</key>
+        	<string>Lavanderia Aki</string>
+----------------------------------------------------------------------------------------------------
