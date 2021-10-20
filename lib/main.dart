@@ -39,14 +39,19 @@ import 'package:printing/printing.dart';
 
 // MODO DESARROLLADOR
 // final String urlAki = 'about:blank'; // LOCAL BLANCK PAGE
-//final String urlAki = 'http://192.168.0.102:81/appAki/layouts/login'; // LOCAL
-//final String urlRepartidorCoordenadas = 'http://192.168.0.102:81/appAki/servicios/Repartidor.php'; // LOCAL
-//final String rutaPDF = 'http://192.168.0.102:81/appAki/servicios/archivos/despacho_recojo/'; // LOCAL
+//final String ipaddress = "192.168.0.104:81";
+//final String ipaddress = "192.168.1.26:81";
+//final String urlAki = 'http://' + ipaddress + '/appAki/layouts/login'; // LOCAL
+//final String urlRepartidorCoordenadas = 'http://' + ipaddress + '/appAki/servicios/Repartidor.php'; // LOCAL
+//final String rutaPDF = 'http://' + ipaddress + '/appAki/servicios/archivos/despacho_recojo/'; // LOCAL
 
 // MODO EN PRODUCCIÓN
-final String urlAki = 'https://demo1.reidemotech.com/layouts/login';
-final String urlRepartidorCoordenadas = 'https://demo1.reidemotech.com/servicios/Repartidor.php';
-final String rutaPDF = 'https://demo1.reidemotech.com/servicios/archivos/despacho_recojo/';
+// final String urlAki = 'https://demo1.reidemotech.com/layouts/login';
+// final String urlRepartidorCoordenadas = 'https://demo1.reidemotech.com/servicios/Repartidor.php';
+// final String rutaPDF = 'https://demo1.reidemotech.com/servicios/archivos/despacho_recojo/';
+final String urlAki = 'http://miguelg9.sg-host.com/appAki/appAki/layouts/login';
+final String urlRepartidorCoordenadas = 'http://miguelg9.sg-host.com/appAki/appAki/servicios/Repartidor.php';
+final String rutaPDF = 'http://miguelg9.sg-host.com/appAki/appAki/servicios/archivos/despacho_recojo/';
 
 // GENERAL
 //final String pdfPrueba = 'https://eqpro.es/wp-content/uploads/2018/11/Ejemplo.pdf';
@@ -145,7 +150,7 @@ class _MyAppState extends State<MyApp>{
     flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged wvs) {});
 
     // https://www.codegrepper.com/code-examples/whatever/flutter+run+function+every+second
-    timer = Timer.periodic(Duration(seconds: 20), (Timer t) => {
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => {
       checkForNewSharedLists()
     });
 
@@ -290,6 +295,12 @@ class _MyAppState extends State<MyApp>{
     try {
       getCurrentLocation();
       var getIdRepartidor =  await webviewPlugin.evalJavascript("document.getElementById('idrepartidor').value");
+
+      try {
+        // CUANDO ES RECOJO, GUARDAREMOS LA LATITUD Y LONGITUD
+        await webviewPlugin.evalJavascript("document.getElementById('latitud_actual').value = '"+ Latitud +"';");
+        await webviewPlugin.evalJavascript("document.getElementById('longitud_actual').value = '"+ Longitud +"';");
+      } catch (err) {}
       await http.get(Uri.parse(urlRepartidorCoordenadas+'?cmd=obtenercoordenadasrepartidor&latitud='+Latitud+'&longitud='+Longitud+'&idrepartidor='+getIdRepartidor.toString().replaceAll('"', '')));
       log("Coordenadas Registradas");
     } on Exception catch (_) {}
